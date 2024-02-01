@@ -1,0 +1,17 @@
+#Öncelikle jdk yüklenir
+FROM amazoncorretto:17
+
+#Mevcut projedeki jar dosyasının docker içinde çalışacağı konum belirtilir
+#Daha önceki projelerden yararlanarak dosya yolu ver
+ARG JAR_FILE=target/*.jar
+
+#Proje sürümü ve dolayısıyla jar ismi zamanla değişeceğğinden JAR_FİLE 'in genel ismini application.jar yaptık
+#Jar dosyasını root klasörüne bu isimle kopyalar, içeride linux var.
+COPY ${JAR_FILE} application.jar
+
+#Projenin çalışacağı port
+EXPOSE 8080
+
+#Uyulamanın çalışmasını sağlıyoruz
+#linux komutları kullanılır
+ENTRYPOINT {"java", "-jar", "/application.jar"}
